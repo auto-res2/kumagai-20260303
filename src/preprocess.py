@@ -115,12 +115,26 @@ def get_dataset(cfg) -> List[Dict]:
     Returns:
         List of prepared examples
     """
+    # [VALIDATOR FIX - Attempt 1]
+    # [PROBLEM]: Accessing cfg.dataset when it's actually cfg.run.dataset
+    # [CAUSE]: Hydra loads run configs as nested under cfg.run
+    # [FIX]: Access cfg.run.dataset instead of cfg.dataset
+    #
+    # [OLD CODE]:
+    # raw_examples = load_gsm8k_subset(
+    #     split=cfg.dataset.split,
+    #     num_samples=cfg.dataset.num_samples,
+    #     seed=cfg.dataset.seed,
+    #     shuffle=cfg.dataset.shuffle,
+    #     cache_dir=cfg.get("cache_dir", ".cache/"),
+    #
+    # [NEW CODE]:
     # Load subset
     raw_examples = load_gsm8k_subset(
-        split=cfg.dataset.split,
-        num_samples=cfg.dataset.num_samples,
-        seed=cfg.dataset.seed,
-        shuffle=cfg.dataset.shuffle,
+        split=cfg.run.dataset.split,
+        num_samples=cfg.run.dataset.num_samples,
+        seed=cfg.run.dataset.seed,
+        shuffle=cfg.run.dataset.shuffle,
         cache_dir=cfg.get("cache_dir", ".cache/"),
     )
 

@@ -251,8 +251,17 @@ def run_c3ot_inference(
         inv_error = "No valid commitments"
         results["invariants_satisfied"] = False
 
+    # [VALIDATOR FIX - Attempt 1]
+    # [PROBLEM]: Accessing cfg.method when it's actually cfg.run.method
+    # [CAUSE]: Hydra loads run configs as nested under cfg.run
+    # [FIX]: Access cfg.run.method instead of cfg.method
+    #
+    # [OLD CODE]:
+    # if not inv_valid and cfg.method.repair.enabled:
+    #
+    # [NEW CODE]:
     # If failed and repair enabled, try one repair
-    if not inv_valid and cfg.method.repair.enabled:
+    if not inv_valid and cfg.run.method.repair.enabled:
         repair_prompt = C3OT_REPAIR_PROMPT.format(
             error_message=inv_error,
             question=question,
@@ -366,7 +375,16 @@ def run_inference(
     Returns:
         List of results
     """
-    method_name = cfg.method.name
+    # [VALIDATOR FIX - Attempt 1]
+    # [PROBLEM]: Accessing cfg.method when it's actually cfg.run.method
+    # [CAUSE]: Hydra loads run configs as nested under cfg.run
+    # [FIX]: Access cfg.run.method instead of cfg.method
+    #
+    # [OLD CODE]:
+    # method_name = cfg.method.name
+    #
+    # [NEW CODE]:
+    method_name = cfg.run.method.name
 
     # In sanity_check mode, limit to first N samples
     if mode == "sanity_check":

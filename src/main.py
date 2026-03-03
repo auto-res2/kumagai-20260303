@@ -28,11 +28,28 @@ def apply_mode_overrides(cfg: DictConfig, mode: str) -> DictConfig:
     Returns:
         Modified config
     """
+    # [VALIDATOR FIX - Attempt 1]
+    # [PROBLEM]: ConfigAttributeError: Key 'dataset' is not in struct
+    # [CAUSE]: The dataset config is nested under cfg.run.dataset, not cfg.dataset. Hydra loads the run config as a nested structure.
+    # [FIX]: Access cfg.run.dataset instead of cfg.dataset, and set struct=False to allow modifications
+    #
+    # [OLD CODE]:
+    # if mode == "sanity_check":
+    #     cfg.dataset.num_samples = 10
+    #     cfg.wandb.project = f"{cfg.wandb.project}-sanity"
+    #     print(f"Sanity check mode: reduced to {cfg.dataset.num_samples} samples")
+    #
+    # [NEW CODE]:
     if mode == "sanity_check":
         # Override for quick validation
-        cfg.dataset.num_samples = 10
+        OmegaConf.set_struct(cfg, False)
+
+        # Access dataset config under cfg.run (where Hydra loads it)
+        cfg.run.dataset.num_samples = 10
         cfg.wandb.project = f"{cfg.wandb.project}-sanity"
-        print(f"Sanity check mode: reduced to {cfg.dataset.num_samples} samples")
+        print(f"Sanity check mode: reduced to {cfg.run.dataset.num_samples} samples")
+
+        OmegaConf.set_struct(cfg, True)
 
     return cfg
 
@@ -62,7 +79,7 @@ def calculate_metrics(results: List[Dict], cfg: DictConfig) -> Dict:
     avg_tokens = total_tokens / total if total > 0 else 0.0
 
     # C3oT specific metrics
-    if cfg.method.name == "c3ot":
+    if cfg.run.method.name == "c3ot":
         commitment_valid = sum(1 for r in results if r.get("commitment_valid", False))
         invariants_satisfied = sum(
             1 for r in results if r.get("invariants_satisfied", False)
@@ -208,8 +225,8 @@ def main(cfg: DictConfig):
     print(f"=== C3oT Experiment ===")
     print(f"Mode: {mode}")
     print(f"Run ID: {cfg.run.run_id}")
-    print(f"Method: {cfg.method.name}")
-    print(f"Dataset: {cfg.dataset.name} ({cfg.dataset.num_samples} samples)")
+    print(f"Method: {cfg.run.method.name}")
+    print(f"Dataset: {cfg.run.dataset.name} ({cfg.run.dataset.num_samples} samples)")
     print()
 
     # Initialize WandB
@@ -236,7 +253,7 @@ def main(cfg: DictConfig):
     llm = create_llm(cfg)
 
     # Run inference
-    print(f"\nRunning inference with {cfg.method.name}...")
+    print(f"\nRunning inference with {cfg.run.method.name}...")
     results = run_inference(examples, llm, cfg, mode)
     print(f"Completed {len(results)} inferences")
 

@@ -310,8 +310,24 @@ def create_comparison_plots(all_metrics: Dict[str, Dict], comparison_dir: Path):
 
         fig, ax = plt.subplots(figsize=(10, 6))
 
-        # Bar plot
-        sns.barplot(data=metric_df, x="run_id", y="value", ax=ax, palette="viridis")
+        # [VALIDATOR FIX - Attempt 1]
+        # [PROBLEM]: FutureWarning about passing palette without hue
+        # [CAUSE]: seaborn v0.14+ deprecates palette without hue assignment
+        # [FIX]: Assign x to hue and set legend=False per seaborn recommendation
+        #
+        # [OLD CODE]:
+        # sns.barplot(data=metric_df, x="run_id", y="value", ax=ax, palette="viridis")
+        #
+        # [NEW CODE]:
+        sns.barplot(
+            data=metric_df,
+            x="run_id",
+            y="value",
+            hue="run_id",
+            ax=ax,
+            palette="viridis",
+            legend=False,
+        )
 
         ax.set_xlabel("Run ID", fontsize=12)
         ax.set_ylabel(metric_name.replace("_", " ").title(), fontsize=12)

@@ -22,3 +22,27 @@ Saved heatmap to .research/results/comparison/comparison_heatmap.pdf
 === Evaluation Complete ===
 Results saved to .research/results
 === [VISUALIZATION] PASSED at Tue Mar  3 07:36:41 UTC 2026 ===
+=== [VISUALIZATION] Start at Tue Mar  3 07:43:47 UTC 2026 ===
+Evaluating 2 runs: ['comparative-1-baseline-cot-gsm8k', 'proposed-c3ot-gsm8k']
+WandB: airas/kumagai
+
+Fetching run data from WandB...
+  Fetching comparative-1-baseline-cot-gsm8k...
+Exported metrics for comparative-1-baseline-cot-gsm8k to .research/results/comparative-1-baseline-cot-gsm8k/wandb_metrics.json
+Saved figure to .research/results/comparative-1-baseline-cot-gsm8k/comparative-1-baseline-cot-gsm8k_metrics.pdf
+  Fetching proposed-c3ot-gsm8k...
+Exported metrics for proposed-c3ot-gsm8k to .research/results/proposed-c3ot-gsm8k/wandb_metrics.json
+Saved figure to .research/results/proposed-c3ot-gsm8k/proposed-c3ot-gsm8k_metrics.pdf
+
+Generating comparison metrics and plots...
+
+Exported aggregated metrics to .research/results/comparison/aggregated_metrics.json
+Saved comparison plot to .research/results/comparison/comparison_final_answer_accuracy.pdf
+Saved comparison plot to .research/results/comparison/comparison_reliability_per_token.pdf
+Saved comparison plot to .research/results/comparison/comparison_avg_tokens_per_sample.pdf
+Saved comparison plot to .research/results/comparison/comparison_cost_usd.pdf
+Saved heatmap to .research/results/comparison/comparison_heatmap.pdf
+
+=== Evaluation Complete ===
+Results saved to .research/results
+=== [VISUALIZATION] PASSED at Tue Mar  3 07:43:56 UTC 2026 ===

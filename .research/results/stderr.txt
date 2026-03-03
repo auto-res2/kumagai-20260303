@@ -23,3 +23,8 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
   sns.barplot(data=metric_df, x="run_id", y="value", ax=ax, palette="viridis")
+   Building kumagai-c3ot-experiment @ file:///workspace
+      Built kumagai-c3ot-experiment @ file:///workspace
+Uninstalled 1 package in 2ms
+Installed 1 package in 1ms
+wandb: [wandb.Api()] Loaded credentials for https://api.wandb.ai from WANDB_API_KEY.

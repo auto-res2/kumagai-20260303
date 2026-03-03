@@ -11,8 +11,19 @@ mode: main
 # Results output directory
 results_dir: .research/results
 
-# WandB configuration (will be set by AI agent)
+# WandB configuration
 wandb:
-  entity: ???
-  project: ???
+  entity: airas
+  project: kumagai
   mode: online
+
+# Cache directory for models and datasets
+cache_dir: .cache/
+
+# LLM configuration
+llm:
+  provider: openai  # openai or anthropic
+  model: gpt-4o-mini  # affordable model for math reasoning
+  max_tokens: 2048
+  temperature: 0.0  # deterministic for reproducibility
+  timeout: 60

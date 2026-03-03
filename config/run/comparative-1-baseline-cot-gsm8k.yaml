@@ -1,0 +1,47 @@
+# Baseline CoT method on GSM8K
+# Run ID: comparative-1-baseline-cot-gsm8k
+
+run_id: comparative-1-baseline-cot-gsm8k
+
+method:
+  name: baseline_cot
+  description: "Standard bounded Chain-of-Thought with final numeric answer"
+  type: comparative
+  index: 1
+  
+  # Baseline specific parameters
+  num_passes: 1
+  prompt_style: standard_cot
+  
+  # No external checker for baseline
+  checker:
+    enabled: false
+  
+  # No repair for baseline
+  repair:
+    enabled: false
+
+dataset:
+  name: gsm8k
+  split: test
+  num_samples: 200  # same subset as proposed
+  seed: 42
+  shuffle: true
+
+inference:
+  batch_size: 4  # parallel workers
+  max_calls_per_sample: 1  # single pass only
+  save_intermediate: false
+  save_outputs: true
+
+# Metrics to track (same as proposed for fair comparison)
+metrics:
+  primary: reliability_per_token
+  secondary:
+    - final_answer_accuracy
+    - commitment_consistency
+    - constraint_coverage
+    - invariant_satisfaction
+    - repair_rate
+    - tokens_used
+    - cost_usd

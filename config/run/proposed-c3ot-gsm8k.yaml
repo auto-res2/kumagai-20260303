@@ -1,0 +1,55 @@
+# Proposed C3oT method on GSM8K
+# Run ID: proposed-c3ot-gsm8k
+
+run_id: proposed-c3ot-gsm8k
+
+method:
+  name: c3ot
+  description: "Commitment-Checked Chain-of-Thought: two-pass prompt routine with structured commitments"
+  type: proposed
+  
+  # C3oT specific parameters
+  num_passes: 2
+  commitment_schema:
+    variables: true
+    constraints: true
+    plan_steps: [2, 4]
+    invariants: [1, 3]
+  
+  # External checker configuration
+  checker:
+    enabled: true
+    validate_json: true
+    validate_invariants: true
+    validate_constraints: true
+  
+  # Repair mechanism
+  repair:
+    enabled: true
+    max_attempts: 1
+    strategy: targeted  # only fix what failed
+
+dataset:
+  name: gsm8k
+  split: test
+  num_samples: 200  # deterministic subset
+  seed: 42
+  shuffle: true
+
+inference:
+  batch_size: 4  # parallel workers
+  max_calls_per_sample: 3  # C-pass + S-pass + optional repair
+  save_intermediate: true
+  save_outputs: true
+
+# Metrics to track
+metrics:
+  primary: reliability_per_token
+  secondary:
+    - final_answer_accuracy
+    - commitment_consistency
+    - constraint_coverage
+    - invariant_satisfaction
+    - repair_rate
+    - tokens_used
+    - cost_usd

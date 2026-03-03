@@ -62,6 +62,37 @@ def parse_args():
     return parser.parse_args(processed_args)
 
 
+def _convert_wandb_to_dict(obj):
+    """
+    Recursively convert WandB objects to standard Python types for JSON serialization.
+
+    Args:
+        obj: Object to convert (may be dict, list, or primitive type)
+
+    Returns:
+        JSON-serializable Python object
+    """
+    if hasattr(obj, "__dict__") or hasattr(obj, "keys"):
+        # WandB SummarySubDict or similar dict-like objects
+        result = {}
+        try:
+            items = obj.items() if hasattr(obj, "items") else obj.__dict__.items()
+            for key, value in items:
+                if not key.startswith("_"):  # Skip private attributes
+                    result[key] = _convert_wandb_to_dict(value)
+        except:
+            # Fallback to string representation
+            return str(obj)
+        return result
+    elif isinstance(obj, (list, tuple)):
+        return [_convert_wandb_to_dict(item) for item in obj]
+    elif isinstance(obj, dict):
+        return {key: _convert_wandb_to_dict(value) for key, value in obj.items()}
+    else:
+        # Primitive types (int, float, str, bool, None)
+        return obj
+
+
 def fetch_run_data(entity: str, project: str, run_id: str) -> Optional[Dict]:
     """
     Fetch run data from WandB API by display name.
@@ -88,9 +119,18 @@ def fetch_run_data(entity: str, project: str, run_id: str) -> Optional[Dict]:
 
         run = runs[0]  # most recent
 
-        # Extract data
-        summary = dict(run.summary)
-        config = dict(run.config)
+        # [VALIDATOR FIX - Attempt 1]
+        # [PROBLEM]: TypeError: Object of type SummarySubDict is not JSON serializable
+        # [CAUSE]: dict(run.summary) performs shallow conversion, leaving nested SummarySubDict objects unconverted
+        # [FIX]: Use recursive conversion function to deeply convert all WandB objects to standard Python types
+        #
+        # [OLD CODE]:
+        # summary = dict(run.summary)
+        # config = dict(run.config)
+        #
+        # [NEW CODE]:
+        summary = _convert_wandb_to_dict(run.summary)
+        config = _convert_wandb_to_dict(run.config)
 
         # Get history for time series metrics
         history = run.history()

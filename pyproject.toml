@@ -21,3 +21,15 @@ dependencies = [
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+# [VALIDATOR FIX - Attempt 1]
+# [PROBLEM]: Docker build failed with "Unable to determine which files to ship inside the wheel"
+# [CAUSE]: hatchling build backend couldn't find the source files because pyproject.toml didn't specify where they are located
+# [FIX]: Added [tool.hatch.build.targets.wheel] section with packages = ["src"] to tell hatchling that source code is in the src/ directory
+#
+# [OLD CODE]:
+# (no hatch configuration section existed)
+#
+# [NEW CODE]:
+[tool.hatch.build.targets.wheel]
+packages = ["src"]

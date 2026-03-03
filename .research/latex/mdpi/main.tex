@@ -94,7 +94,7 @@ $^{2}$ \quad Affiliation 2; e-mail@e-mail.com}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Only for the journal Data
 %\dataset{DOI number or link to the deposited data set if the data set is published separately. If the data set shall be published as a supplement to this paper, this field will be filled by the journal editors. In this case, please submit the data set as a supplement.}
-%\datasetlicense{License under which the data set is made available (CC0, CC-BY, CC-BY-SA, CC-BY-NC, etc.)}
+%\datasetlicense{License under which the data set is made available (CC0, CC-BY, CC-BY-SA, CC-BY-NC, etc.){}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Only for the journal BioTech, Fishes, Neuroimaging and Toxins
@@ -136,7 +136,7 @@ We propose Commitment-Checked Chain-of-Thought (C3oT), a prompt-only, multi-call
 
 The central design idea is to shift the objective surrogate from self-rated verification to externally evaluated contract satisfaction. While the intended formulation of C3oT emphasizes mechanically executable invariants, the logged implementation used in our experiments adopts a simplified heuristic invariant check based on evidence-text referencing. This makes the approach empirically falsifiable in an important way: if externalized commitments do not translate into better outcomes under token-aware evaluation, the failure is measurable.
 
-We evaluate C3oT on a deterministic 200-item subset of the GSM8K test split and compare it to a bounded standard CoT baseline under the same overall experimental protocol and model. The primary metric logged by our evaluation code is reliability_per_token = (accuracy * 1000) / avg_tokens_per_sample, which explicitly penalizes token-heavy methods. Contrary to the motivating hypothesis, the recorded results show that the baseline CoT outperforms C3oT on both accuracy and token efficiency: baseline accuracy is 0.935 versus 0.875 for C3oT, and baseline reliability per token is 2.1676 versus 0.6694 for C3oT. At the same time, C3oT exhibits high commitment schema validity (0.98) and a moderate invariant satisfaction rate (0.565), and it triggers repairs on 41.5% of problems. These outcomes indicate that structured commitment elicitation is largely feasible in practice, and that an external checker can surface many potential faithfulness or evidence failures even when efficiency gains are not realized.
+We evaluate C3oT on a deterministic 200-item subset of the GSM8K test split and compare it to a bounded standard CoT baseline under the same overall experimental protocol and model. The primary metric logged by our evaluation code is \texttt{reliability\_per\_token = (accuracy * 1000) / avg\_tokens\_per\_sample}, which explicitly penalizes token-heavy methods. Contrary to the motivating hypothesis, the recorded results show that the baseline CoT outperforms C3oT on both accuracy and token efficiency: baseline accuracy is 0.935 versus 0.875 for C3oT, and baseline reliability per token is 2.1676 versus 0.6694 for C3oT. At the same time, C3oT exhibits high commitment schema validity (0.98) and a moderate invariant satisfaction rate (0.565), and it triggers repairs on 41.5\% of problems. These outcomes indicate that structured commitment elicitation is largely feasible in practice, and that an external checker can surface many potential faithfulness or evidence failures even when efficiency gains are not realized.
 
 Contributions:
 - We introduce C3oT, a prompt-only commit-then-solve routine that elicits structured commitments (variables, constraints, and invariants) intended to bind a numeric final answer to an auditable contract.
@@ -163,9 +163,9 @@ Finally, token cost is a key axis of comparison for inference-time techniques. M
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Background}
 
-We consider the task of solving grade-school math word problems where each instance consists of a natural-language question q and a single numeric gold answer y. A model produces a text response from which we extract a numeric prediction y_hat. In our evaluation, y_hat is extracted by parsing the pattern “FINAL: <number>”; if that pattern is absent, the extractor falls back to the last number in the output. An answer is counted as correct if the absolute error between y_hat and y is less than 1e-6.
+We consider the task of solving grade-school math word problems where each instance consists of a natural-language question q and a single numeric gold answer y. A model produces a text response from which we extract a numeric prediction $\hat{y}$. In our evaluation, $\hat{y}$ is extracted by parsing the pattern “FINAL: <number>”; if that pattern is absent, the extractor falls back to the last number in the output. An answer is counted as correct if the absolute error between $\hat{y}$ and y is less than $1 \times 10^{-6}$.
 
-Problem setting and notation. Let M denote a fixed large language model used in inference-only mode. A prompting method defines a procedure that issues one or more prompts to M, optionally using intermediate artifacts from earlier calls, and returns a final response containing y_hat. Let T denote the total number of tokens generated across all calls for that example, as reported by API usage metadata. Because our hypothesis concerns reliability under practical budgets, we evaluate both task performance (accuracy) and efficiency (performance relative to token usage).
+Problem setting and notation. Let M denote a fixed large language model used in inference-only mode. A prompting method defines a procedure that issues one or more prompts to M, optionally using intermediate artifacts from earlier calls, and returns a final response containing $\hat{y}$. Let T denote the total number of tokens generated across all calls for that example, as reported by API usage metadata. Because our hypothesis concerns reliability under practical budgets, we evaluate both task performance (accuracy) and efficiency (performance relative to token usage).
 
 Prompt-only reasoning and faithfulness. CoT prompting requests intermediate steps before producing the final answer. The presence of intermediate steps can be useful for human inspection, but it does not guarantee internal consistency. Intermediate claims may contradict each other or the final output, and the model may omit key constraints from the problem. These issues motivate methods that attempt to bind the final answer to a representation of the constraints and computations that can be checked.
 
@@ -190,7 +190,7 @@ Targeted repair. If the invariant check fails and repair is enabled, the pipelin
 
 Baseline: bounded standard CoT. For comparison, we use a bounded standard CoT baseline implemented as a single-pass prompt requesting step-by-step reasoning and requiring “FINAL: <number>” at the end. There is no commitment JSON, no external contract checking, and no repair.
 
-Aggregate metrics. For each method, we compute final-answer accuracy as correct_count / total_samples. We measure average tokens per sample from API token usage metadata and aggregate estimated cost in USD from a simple provider-specific estimator. The primary metric in the logged summaries is reliability_per_token defined as (accuracy * 1000) / avg_tokens_per_sample, so higher values indicate more correct answers per generated token. For C3oT, we additionally log commitment_consistency (fraction of examples with valid commitment JSON), invariant_satisfaction (fraction passing the heuristic invariant or evidence check on the solve pass), and repair_rate (fraction of examples that triggered a repair call).
+Aggregate metrics. For each method, we compute final-answer accuracy as \texttt{correct\_count} / \texttt{total\_samples}. We measure average tokens per sample from API token usage metadata and aggregate estimated cost in USD from a simple provider-specific estimator. The primary metric in the logged summaries is \texttt{reliability\_per\_token} defined as (accuracy * 1000) / \texttt{avg\_tokens\_per\_sample}, so higher values indicate more correct answers per generated token. For C3oT, we additionally log \texttt{commitment\_consistency} (fraction of examples with valid commitment JSON), \texttt{invariant\_satisfaction} (fraction passing the heuristic invariant or evidence check on the solve pass), and \texttt{repair\_rate} (fraction of examples that triggered a repair call).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experimental Setup}
@@ -203,9 +203,9 @@ Methods compared and run configurations. We compare two runs on the same GSM8K-2
 1) comparative-1-baseline-cot-gsm8k (baseline): a single-pass bounded CoT prompt with no checker and no repair.
 2) proposed-c3ot-gsm8k (proposed): C3oT with a commitment pass, a solve pass, and an optional repair pass with a maximum of one repair attempt; the run configuration allows up to three calls per sample.
 
-Batching and runtime controls. Inference is executed with batch_size set to 4 (parallel workers). The code supports a sanity_check mode that would reduce the dataset to 10 samples, but the reported results are from the full 200-sample runs.
+Batching and runtime controls. Inference is executed with \texttt{batch\_size} set to 4 (parallel workers). The code supports a \texttt{sanity\_check} mode that would reduce the dataset to 10 samples, but the reported results are from the full 200-sample runs.
 
-Evaluation metrics and scoring. The evaluation code computes: final_answer_accuracy, tokens_used, avg_tokens_per_sample, cost_usd, and reliability_per_token for both runs. For C3oT it also computes commitment_consistency, invariant_satisfaction, and repair_rate. Correctness for both methods is determined by comparing the extracted final_answer to the ground_truth with an absolute tolerance of 1e-6.
+Evaluation metrics and scoring. The evaluation code computes: \texttt{final\_answer\_accuracy}, \texttt{tokens\_used}, \texttt{avg\_tokens\_per\_sample}, \texttt{cost\_usd}, and \texttt{reliability\_per\_token} for both runs. For C3oT it also computes \texttt{commitment\_consistency}, \texttt{invariant\_satisfaction}, and \texttt{repair\_rate}. Correctness for both methods is determined by comparing the extracted \texttt{final\_answer} to the \texttt{ground\_truth} with an absolute tolerance of $1 \times 10^{-6}$.
 
 Implementation details relevant for reproducibility. Commitment JSON is extracted from the model output by searching for a JSON-like substring using a regex that matches the first occurrence of a brace-delimited block, and then applying json.loads. The schema validator enforces the presence of the keys variables, constraints, plan, and invariants; checks that their types match the expected (dict or list); and enforces that the plan length is between 2 and 4 and invariants length is between 1 and 3. Final answers are extracted by regex matching “FINAL: number” and allowing comma separators. Invariant satisfaction is computed by a simplified heuristic: the solve output must include an “Evidence:” section, and the evidence text must reference at least one invariant by matching a prefix of the invariant string. If this check fails and repair is enabled, one repair prompt is issued.
 
@@ -221,31 +221,76 @@ Final-answer accuracy (higher is better). The baseline achieves 0.935 accuracy, 
 
 Token usage and estimated cost (lower is better). The baseline uses 86,269 total tokens, averaging 431.345 tokens per sample, with an estimated cost of 0.032350875 USD. C3oT uses 261,446 total tokens, averaging 1307.23 tokens per sample, with an estimated cost of 0.09804225 USD. This corresponds to approximately 3.03 times higher token usage and cost for C3oT, consistent with its multi-pass design.
 
-Primary metric: reliability per token (higher is better). Using the logged definition reliability_per_token = (accuracy * 1000) / avg_tokens_per_sample, the baseline achieves 2.1676, while C3oT achieves 0.6694. The gap (proposed minus baseline) is -1.4983, indicating that C3oT is substantially worse on the primary efficiency-oriented metric.
+Primary metric: reliability per token (higher is better). Using the logged definition \texttt{reliability\_per\_token} = (accuracy * 1000) / \texttt{avg\_tokens\_per\_sample}, the baseline achieves 2.1676, while C3oT achieves 0.6694. The gap (proposed minus baseline) is -1.4983, indicating that C3oT is substantially worse on the primary efficiency-oriented metric.
 
-C3oT contract metrics (higher is better). C3oT’s commitment_consistency is 0.98, meaning the commitment JSON parsed and passed schema validation for 98% of examples. The invariant_satisfaction rate is 0.565, meaning that 56.5% of examples passed the heuristic invariant or evidence validation on the solve pass. The repair_rate is 0.415, indicating that 41.5% of examples triggered the repair prompt due to initial invariant validation failure.
+C3oT contract metrics (higher is better). C3oT’s \texttt{commitment\_consistency} is 0.98, meaning the commitment JSON parsed and passed schema validation for 98% of examples. The \texttt{invariant\_satisfaction} rate is 0.565, meaning that 56.5% of examples passed the heuristic invariant or evidence validation on the solve pass. The \texttt{repair\_rate} is 0.415, indicating that 41.5% of examples triggered the repair prompt due to initial invariant validation failure.
 
 Figures. The following figures were produced by the evaluation pipeline and are included here exactly once each.
 
-![Per-run metrics over time for the baseline bounded CoT run on GSM8K; higher values indicate better performance for final-answer accuracy and reliability per token, while lower values indicate better performance for token and cost metrics.](images/comparative-1-baseline-cot-gsm8k_metrics.pdf){#fig:baseline-metrics}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{images/comparative-1-baseline-cot-gsm8k_metrics.pdf}
+\caption{Per-run metrics over time for the baseline bounded CoT run on GSM8K; higher values indicate better performance for final-answer accuracy and reliability per token, while lower values indicate better performance for token and cost metrics.}
+\label{fig:baseline-metrics}
+\end{figure}
 
-![Per-run metrics over time for the proposed C3oT run on GSM8K; higher values indicate better performance for final-answer accuracy and reliability per token, while lower values indicate better performance for token and cost metrics.](images/proposed-c3ot-gsm8k_metrics.pdf){#fig:c3ot-metrics}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{images/proposed-c3ot-gsm8k_metrics.pdf}
+\caption{Per-run metrics over time for the proposed C3oT run on GSM8K; higher values indicate better performance for final-answer accuracy and reliability per token, while lower values indicate better performance for token and cost metrics.}
+\label{fig:c3ot-metrics}
+\end{figure}
 
-![Comparison of average tokens per sample across runs; lower values indicate better efficiency.](images/comparison_avg_tokens_per_sample.pdf){#fig:comparison-tokens}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{images/comparison_avg_tokens_per_sample.pdf}
+\caption{Comparison of average tokens per sample across runs; lower values indicate better efficiency.}
+\label{fig:comparison-tokens}
+\end{figure}
 
-![Comparison of estimated USD cost across runs; lower values indicate better efficiency.](images/comparison_cost_usd.pdf){#fig:comparison-cost}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{images/comparison_cost_usd.pdf}
+\caption{Comparison of estimated USD cost across runs; lower values indicate better efficiency.}
+\label{fig:comparison-cost}
+\end{figure}
 
-![Comparison of final-answer accuracy across runs; higher values indicate better performance.](images/comparison_final_answer_accuracy.pdf){#fig:comparison-accuracy}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{images/comparison_final_answer_accuracy.pdf}
+\caption{Comparison of final-answer accuracy across runs; higher values indicate better performance.}
+\label{fig:comparison-accuracy}
+\end{figure}
 
-![Heatmap comparison of normalized metrics across runs; higher normalized values indicate better performance for the underlying metric as logged.](images/comparison_heatmap.pdf){#fig:comparison-heatmap}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{images/comparison_heatmap.pdf}
+\caption{Heatmap comparison of normalized metrics across runs; higher normalized values indicate better performance for the underlying metric as logged.}
+\label{fig:comparison-heatmap}
+\end{figure}
 
-![Comparison of reliability per token across runs; higher values indicate better performance.](images/comparison_reliability_per_token.pdf){#fig:comparison-rpt}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{images/comparison_reliability_per_token.pdf}
+\caption{Comparison of reliability per token across runs; higher values indicate better performance.}
+\label{fig:comparison-rpt}
+\end{figure}
 
-![C3oT methodology diagram; this figure is descriptive and does not encode a performance metric.](images/c3ot_methodology.pdf){#fig:c3ot-methodology}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{images/c3ot_methodology.pdf}
+\caption{C3oT methodology diagram; this figure is descriptive and does not encode a performance metric.}
+\label{fig:c3ot-methodology}
+\end{figure}
 
-![System architecture diagram for the experimental pipeline; this figure is descriptive and does not encode a performance metric.](images/system_architecture.pdf){#fig:system-architecture}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{images/system_architecture.pdf}
+\caption{System architecture diagram for the experimental pipeline; this figure is descriptive and does not encode a performance metric.}
+\label{fig:system-architecture}
+\end{figure}
 
-Interpretation and limitations. The comparison plots show that C3oT consumes substantially more tokens than the baseline (@fig:comparison-tokens) and achieves lower final-answer accuracy (@fig:comparison-accuracy), which together yield a large drop in reliability per token (@fig:comparison-rpt). At the same time, the C3oT run’s high commitment consistency indicates that the structured commitment format is robustly elicitable, while the invariant satisfaction rate and repair rate indicate that the checker surfaces many failures that would not be observable in a standard CoT baseline. A key limitation is that invariant checking is heuristic rather than true expression evaluation, which may lead to both false failures and false passes relative to the intended mechanically checkable invariants. Another limitation is that the aggregate metrics do not include a post-repair invariant satisfaction rate, so we cannot quantify how often the repair step resolves contract failures beyond noting how frequently it is invoked.
+Interpretation and limitations. The comparison plots show that C3oT consumes substantially more tokens than the baseline (\cref{fig:comparison-tokens) and achieves lower final-answer accuracy (\cref{fig:comparison-accuracy}, which together yield a large drop in reliability per token (\cref{fig:comparison-rpt}. At the same time, the C3oT run’s high commitment consistency indicates that the structured commitment format is robustly elicitable, while the invariant satisfaction rate and repair rate indicate that the checker surfaces many failures that would not be observable in a standard CoT baseline. A key limitation is that invariant checking is heuristic rather than true expression evaluation, which may lead to both false failures and false passes relative to the intended mechanically checkable invariants. Another limitation is that the aggregate metrics do not include a post-repair invariant satisfaction rate, so we cannot quantify how often the repair step resolves contract failures beyond noting how frequently it is invoked.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
@@ -257,9 +302,9 @@ Interpretation and limitations. The comparison plots show that C3oT consumes sub
 
 This paper examined whether prompt-only structured commitments can improve reliability for grade-school math word problems when evaluation explicitly accounts for token cost. We introduced Commitment-Checked Chain-of-Thought (C3oT), a two-pass commit-then-solve procedure in which the model emits a structured commitment JSON (variables, constraints, plan, invariants) and then produces a concise solution with a numeric FINAL and an evidence section, with an external checker and at most one targeted repair.
 
-On a deterministic 200-problem subset of the GSM8K test split, the recorded results do not support the hypothesis that C3oT improves reliability per token relative to a bounded standard CoT baseline. The baseline attained higher accuracy (0.935 versus 0.875) while using substantially fewer tokens per sample (431.345 versus 1307.23), resulting in a much higher reliability_per_token (2.1676 versus 0.6694).
+On a deterministic 200-problem subset of the GSM8K test split, the recorded results do not support the hypothesis that C3oT improves reliability per token relative to a bounded standard CoT baseline. The baseline attained higher accuracy (0.935 versus 0.875) while using substantially fewer tokens per sample (431.345 versus 1307.23), resulting in a much higher \texttt{reliability\_per\_token} (2.1676 versus 0.6694).
 
-Despite underperforming on end-task accuracy and efficiency in this implementation, C3oT demonstrated two practically relevant properties. First, it produced structurally valid commitments at high rates (commitment_consistency 0.98), suggesting that the required structured artifact is feasible to elicit without fine-tuning. Second, it provided measurable auditing signals, with only 0.565 invariant_satisfaction under the current heuristic checker and a repair_rate of 0.415, indicating that many responses violate the declared evidence or contract requirements.
+Despite underperforming on end-task accuracy and efficiency in this implementation, C3oT demonstrated two practically relevant properties. First, it produced structurally valid commitments at high rates (\texttt{commitment\_consistency} 0.98), suggesting that the required structured artifact is feasible to elicit without fine-tuning. Second, it provided measurable auditing signals, with only 0.565 \texttt{invariant\_satisfaction} under the current heuristic checker and a \texttt{repair\_rate} of 0.415, indicating that many responses violate the declared evidence or contract requirements.
 
 These results suggest that the immediate value of C3oT, as implemented and evaluated here, is as an auditing scaffold that surfaces faithfulness-related failures rather than as an accuracy- or efficiency-improving technique. Future work should more closely align implementation with the motivating hypothesis by executing invariants directly in a restricted evaluator, logging explicit post-repair contract satisfaction, and enforcing strict matched token budgets across methods to isolate when externally checked commitments can translate into improved correctness and efficiency.
 

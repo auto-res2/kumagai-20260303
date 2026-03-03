@@ -1,0 +1,293 @@
+%  LaTeX support: latex@mdpi.com 
+%  For support, please attach all files needed for compiling as well as the log file, and specify your operating system, LaTeX version, and LaTeX editor.
+
+%=================================================================
+\documentclass[journal,article,submit,pdftex,moreauthors]{Definitions/mdpi}
+
+%=================================================================
+% MDPI internal commands - do not modify
+\firstpage{1} 
+\makeatletter 
+\setcounter{page}{\@firstpage} 
+\makeatother
+\pubvolume{1}
+\issuenum{1}
+\articlenumber{0}
+\pubyear{2026}
+\copyrightyear{2026}
+%\externaleditor{Firstname Lastname} % More than 1 editor, please add `` and '' before the last editor name
+\datereceived{ } 
+\daterevised{ } % Comment out if no revised date
+\dateaccepted{ } 
+\datepublished{ } 
+%\datecorrected{} % For corrected papers: "Corrected: XXX" date in the original paper.
+%\dateretracted{} % For retracted papers: "Retracted: XXX" date in the original paper.
+%\doinum{} % Used for some special journals, like molbank
+%\pdfoutput=1 % Uncommented for upload to arXiv.org
+%\CorrStatement{yes}  % For updates
+%\longauthorlist{yes} % For many authors that exceed the left citation part
+%\IsAssociation{yes} % For association journals
+
+%=================================================================
+% Add packages and commands here. The following packages are loaded in our class file: fontenc, inputenc, calc, indentfirst, fancyhdr, graphicx, epstopdf, lastpage, ifthen, float, amsmath, amssymb, lineno, setspace, enumitem, mathpazo, booktabs, titlesec, etoolbox, tabto, xcolor, colortbl, soul, multirow, microtype, tikz, totcount, changepage, attrib, upgreek, array, tabularx, pbox, ragged2e, tocloft, marginnote, marginfix, enotez, amsthm, natbib, hyperref, cleveref, scrextend, url, geometry, newfloat, caption, draftwatermark, seqsplit
+% cleveref: load \crefname definitions after \begin{document}
+
+%=================================================================
+% Please use the following mathematics environments: Theorem, Lemma, Corollary, Proposition, Characterization, Property, Problem, Example, ExamplesandDefinitions, Hypothesis, Remark, Definition, Notation, Assumption
+%% For proofs, please use the proof environment (the amsthm package is loaded by the MDPI class).
+
+%=================================================================
+% Full title of the paper (Capitalized)
+\Title{Commitment-Checked Reasoning Under External Contracts: Token-Aware Evaluation of Prompt-Only C3oT on GSM8K}
+
+% Author Orchid ID: enter ID or remove command
+\newcommand{\orcidauthorA}{0000-0000-0000-000X} % Add \orcidA{} behind the author's name
+%\newcommand{\orcidauthorB}{0000-0000-0000-000X} % Add \orcidB{} behind the author's name
+
+% Authors, for the paper (add full first names)
+\Author{Firstname Lastname $^{1}$\orcidA{}, Firstname Lastname $^{2}$ and Firstname Lastname $^{2,}$*}
+
+%\longauthorlist{yes}
+
+% MDPI internal command: Authors, for metadata in PDF
+\AuthorNames{Firstname Lastname, Firstname Lastname and Firstname Lastname}
+
+% Affiliations / Addresses (Add [1] after \address if there is only one affiliation.)
+\address{%
+$^{1}$ \quad Affiliation 1; e-mail@e-mail.com\\
+$^{2}$ \quad Affiliation 2; e-mail@e-mail.com}
+
+% Contact information of the corresponding author
+\corres{Correspondence: e-mail@e-mail.com; Tel.: (optional; include country code; if there are multiple corresponding authors, add author initials) +xx-xxxx-xxx-xxxx (F.L.)}
+
+% Current address and/or shared authorship
+%\firstnote{Current address: Affiliation.}
+% Current address should not be the same as any items in the Affiliation section.
+
+%\secondnote{These authors contributed equally to this work.}
+% The commands \thirdnote{} till \eighthnote{} are available for further notes.
+
+%\simplesumm{} % Simple summary
+
+%\conference{} % An extended version of a conference paper
+
+% Abstract (Do not insert blank lines, i.e. \\)
+\abstract{Prompt-only Chain-of-Thought (CoT) can increase the appearance of reasoning while remaining unfaithful: intermediate statements may contradict the final answer, and critique loops can collude when the same model both generates and judges its output. We ask whether a prompt-only procedure can bind a model’s numeric answer to a compact, auditable set of intermediate commitments under token-sensitive evaluation. We propose Commitment-Checked Chain-of-Thought (C3oT), a two-pass commit then solve routine in which the model first emits a structured commitment JSON specifying variables, extracted constraints, a short plan, and 1–3 intended-to-be-checkable invariants, then produces a concise solution with a numeric FINAL and an evidence section referencing those invariants. A lightweight Python checker validates the commitment schema and performs a heuristic invariant-evidence check, triggering at most one targeted repair prompt that forces an explicit change to either the commitments or FINAL. We evaluate C3oT against a bounded standard CoT baseline on a deterministic 200-problem GSM8K test subset with a single inference-only model, reporting accuracy, token usage, cost, and reliability per token. Baseline CoT achieves higher accuracy (0.935) with lower tokens (431 per sample) than C3oT (0.875; 1307 per sample), yielding substantially higher reliability per token. Nonetheless, C3oT attains high commitment parseability (0.98) and surfaces frequent contract violations (invariant satisfaction 0.565; repair rate 0.415), indicating immediate value as an auditing scaffold even when efficiency gains are not realized in this implementation.}
+
+% Keywords
+\keyword{keyword 1; keyword 2; keyword 3 (List three to ten pertinent keywords specific to the article; yet reasonably common within the subject discipline.)}
+
+% The fields PACS, MSC, and JEL may be left empty or commented out if not applicable
+%\PACS{J0101}
+%\MSC{}
+%\JEL{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Diversity
+%\LSID{\url{http://}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Applied Sciences
+%\featuredapplication{Authors are encouraged to provide a concise description of the specific application or a potential application of the work. This section is not mandatory.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Data
+%\dataset{DOI number or link to the deposited data set if the data set is published separately. If the data set shall be published as a supplement to this paper, this field will be filled by the journal editors. In this case, please submit the data set as a supplement.}
+%\datasetlicense{License under which the data set is made available (CC0, CC-BY, CC-BY-SA, CC-BY-NC, etc.)}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal BioTech, Fishes, Neuroimaging and Toxins
+%\keycontribution{The breakthroughs or highlights of the manuscript. Authors can write one or two sentences to describe the most important part of the paper.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Only for the journal Encyclopedia
+%\encyclopediadef{For entry manuscripts only: please provide a brief overview of the entry title instead of an abstract.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Different journals have different requirements. Please check the specific journal guidelines in the "Instructions for Authors" on the journal's official website.
+%\addhighlights{yes}
+%\renewcommand{\addhighlights}{%
+%
+%\noindent The goal is to increase the discoverability and readability of the article via search engines and other scholars. Highlights should not be a copy of the abstract, but a simple text allowing the reader to quickly and simplified find out what the article is about and what can be cited from it. Each of these parts should be devoted up to 2~bullet points.\vspace{3pt}\\
+%\textbf{What are the main findings?}
+% \begin{itemize}[labelsep=2.5mm,topsep=-3pt]
+% \item First bullet.
+% \item Second bullet.
+% \end{itemize}\vspace{3pt}
+%\textbf{What are the implications of the main findings?}
+% \begin{itemize}[labelsep=2.5mm,topsep=-3pt]
+% \item First bullet.
+% \item Second bullet.
+% \end{itemize}
+%}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+Large language models can solve grade-school mathematics word problems with prompting alone, and Chain-of-Thought (CoT) prompting is widely used to elicit intermediate reasoning that appears to justify a final answer. However, free-form intermediate reasoning is not a guarantee of faithfulness. A model may produce internally inconsistent steps yet output a plausible final number, and critique-then-revise routines can fail when the same model acts as both generator and judge, creating the risk of verifier collusion. In such settings, evaluation that focuses only on final-answer accuracy can miss failures that matter for trust and deployment, including contradictions between intermediate claims and the final answer, omission or misuse of problem constraints, and overconfident but incorrect outputs produced under fixed or implicit token budgets.
+
+This paper studies a concrete gap implied by these concerns: can we design a prompt-only mechanism that binds a model’s final answer to a compact, auditable set of intermediate commitments, and does doing so improve reliability when token cost is explicitly accounted for? We focus on grade-school math word problems, where the desired output is a single numeric answer and where many solution constraints are naturally expressible as simple arithmetic relationships.
+
+We propose Commitment-Checked Chain-of-Thought (C3oT), a prompt-only, multi-call routine that replaces free-form CoT with a commit → compute → reconcile workflow. In the first pass (the commitment pass, or C-pass), the model is explicitly instructed not to solve the problem; instead it must return a structured commitment JSON containing declared variables (with units or null placeholders), extracted constraints, a short plan of 2–4 steps, and a small set of 1–3 invariants that should hold for any valid final answer. In the second pass (the solve pass, or S-pass), the model receives the problem and its own commitments and produces a concise solution ending in a numeric line of the form FINAL: <number> and an evidence section that references how the invariants are satisfied. An external Python checker validates the commitment schema and checks invariant satisfaction using a lightweight heuristic; if this validation fails, C3oT allows at most one targeted repair prompt. The repair prompt includes the failing condition and requires the model to explicitly change either the commitments (constraints or invariants) or the final answer, attempting to prevent silent drift.
+
+The central design idea is to shift the objective surrogate from self-rated verification to externally evaluated contract satisfaction. While the intended formulation of C3oT emphasizes mechanically executable invariants, the logged implementation used in our experiments adopts a simplified heuristic invariant check based on evidence-text referencing. This makes the approach empirically falsifiable in an important way: if externalized commitments do not translate into better outcomes under token-aware evaluation, the failure is measurable.
+
+We evaluate C3oT on a deterministic 200-item subset of the GSM8K test split and compare it to a bounded standard CoT baseline under the same overall experimental protocol and model. The primary metric logged by our evaluation code is reliability_per_token = (accuracy * 1000) / avg_tokens_per_sample, which explicitly penalizes token-heavy methods. Contrary to the motivating hypothesis, the recorded results show that the baseline CoT outperforms C3oT on both accuracy and token efficiency: baseline accuracy is 0.935 versus 0.875 for C3oT, and baseline reliability per token is 2.1676 versus 0.6694 for C3oT. At the same time, C3oT exhibits high commitment schema validity (0.98) and a moderate invariant satisfaction rate (0.565), and it triggers repairs on 41.5% of problems. These outcomes indicate that structured commitment elicitation is largely feasible in practice, and that an external checker can surface many potential faithfulness or evidence failures even when efficiency gains are not realized.
+
+Contributions:
+- We introduce C3oT, a prompt-only commit-then-solve routine that elicits structured commitments (variables, constraints, and invariants) intended to bind a numeric final answer to an auditable contract.
+- We implement an external checker and a targeted single-repair mechanism that forces explicit changes rather than silent drift.
+- We provide an empirical evaluation on a deterministic GSM8K-200 subset showing that, in this implementation, C3oT does not improve accuracy or reliability per token relative to bounded standard CoT, but yields high structured-output validity and measurable contract-violation signals.
+
+These findings suggest several directions for future work. First, the checker should align more closely with the method’s stated goal by executing invariants directly rather than relying on heuristic evidence matching. Second, post-repair contract satisfaction should be logged explicitly to quantify whether targeted repairs reliably improve faithfulness. Third, future comparisons should enforce strict, matched token budgets across multi-pass methods to isolate the conditions under which contract satisfaction can translate into improved correctness and efficiency.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Related Work}
+
+C3oT sits among a broader family of inference-time prompting methods that attempt to improve reasoning quality without additional training by eliciting intermediate structure, generating auxiliary text, or adding self-evaluation loops. Our focus is specifically on prompt-only mechanisms that aim to reduce failures of faithfulness and to evaluate improvements under token-sensitive metrics.
+
+Generated-knowledge prompting encourages models to externalize supporting facts or intermediate information before producing an answer \cite{kunin-2022-generated}. Relative to C3oT, such approaches similarly emphasize explicit intermediate content, but they typically treat that content as free-form text and do not require it to take the form of a compact contract with externally checkable acceptance criteria. In contrast, C3oT’s commitment JSON is intended to be auditable and, in principle, mechanically verifiable, so that success is not purely a matter of narrative coherence.
+
+Instance-adaptive prompting methods adjust prompts at inference time based on the specific instance in order to improve zero-shot performance \cite{grossmann-2024-instance}. This shares C3oT’s general goal of improving reliability without fine-tuning, but differs in how additional inference budget is spent. Instance-adaptive methods emphasize modifying the prompt content or structure to better fit the input, whereas C3oT allocates budget to a dedicated commitment pass and uses an external checker to decide whether a repair is warranted. As a result, C3oT can produce an explicit, structured artifact that can be inspected independently of the final answer.
+
+Work that analyzes when reasoning-like traces appear even without explicit prompting motivates caution in interpreting free-form CoT as evidence of genuine, faithful reasoning \cite{schreck-2023-chain}. C3oT operationalizes that caution by separating the act of committing (extracting constraints and invariants) from the act of solving. This separation creates explicit failure modes that can be detected: a response may be correct yet fail contract validation, or may satisfy a contract that is too weak to constrain the answer.
+
+A critical comparison point is generic self-critique or critique-then-revise paradigms. While those approaches can improve final-answer accuracy by allowing the model to reflect on its own output, they often rely on the model’s internal judgment to determine whether a revision is needed. C3oT is motivated by the risk that such self-judgment can collude with the generator. By making contract checking an external decision, C3oT aims to reduce that risk. However, our recorded implementation only approximates the ideal because its invariant check is heuristic rather than fully executable, limiting how strongly it can claim independence from the model’s own narrative.
+
+Finally, token cost is a key axis of comparison for inference-time techniques. Methods that add passes or generate more text may improve raw accuracy, but can become unattractive under reliability-per-token evaluation if gains do not scale with cost. Our results provide a concrete case in which adding structure and a multi-call pipeline substantially increases token use while reducing accuracy, underscoring the importance of measuring efficiency rather than assuming that more reasoning steps are beneficial.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Background}
+
+We consider the task of solving grade-school math word problems where each instance consists of a natural-language question q and a single numeric gold answer y. A model produces a text response from which we extract a numeric prediction y_hat. In our evaluation, y_hat is extracted by parsing the pattern “FINAL: <number>”; if that pattern is absent, the extractor falls back to the last number in the output. An answer is counted as correct if the absolute error between y_hat and y is less than 1e-6.
+
+Problem setting and notation. Let M denote a fixed large language model used in inference-only mode. A prompting method defines a procedure that issues one or more prompts to M, optionally using intermediate artifacts from earlier calls, and returns a final response containing y_hat. Let T denote the total number of tokens generated across all calls for that example, as reported by API usage metadata. Because our hypothesis concerns reliability under practical budgets, we evaluate both task performance (accuracy) and efficiency (performance relative to token usage).
+
+Prompt-only reasoning and faithfulness. CoT prompting requests intermediate steps before producing the final answer. The presence of intermediate steps can be useful for human inspection, but it does not guarantee internal consistency. Intermediate claims may contradict each other or the final output, and the model may omit key constraints from the problem. These issues motivate methods that attempt to bind the final answer to a representation of the constraints and computations that can be checked.
+
+Contracts, commitments, and invariants. C3oT introduces a structured commitment artifact: a JSON object intended to serve as a compact contract for the subsequent solve pass. The contract includes: (i) variables, possibly with units or null placeholders; (ii) extracted constraints from the problem statement; (iii) a short plan; and (iv) a small list of invariants. Conceptually, an invariant is any statement that must hold for a valid solution, such as a simple equality or inequality involving declared variables and the final answer. The intended form of invariants in the broader research hypothesis includes expressions like “a + b == FINAL” or “x <= FINAL”, which could be evaluated in a restricted environment.
+
+External checking. An external checker is a program that validates whether a produced commitment object matches an expected schema and whether the solution output satisfies the contract. External checking is attractive because it creates acceptance criteria outside the model’s own narrative. In the idealized design, invariants would be mechanically evaluated, providing a strong signal against internal inconsistency. In the logged implementation used in our experiments, commitment checking is robust (schema validation and parsing), but invariant satisfaction is assessed via a simplified heuristic: the solution must contain an “Evidence:” section, and that evidence must reference at least one of the invariant strings by matching a prefix. This implementation detail matters for interpreting results, because it changes what “invariant satisfaction” measures.
+
+Targeted repair and explicit changes. When the checker reports a failure, C3oT allows at most one repair attempt. The repair prompt includes the checker’s error message and requires the model to explicitly change either the commitments (constraints or invariants) or the final answer. This explicit-change requirement is intended to prevent silent drift, where the model changes commitments or answers without acknowledgment, and to enable the external checker to gate revisions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Method}
+
+C3oT is a prompt-only, multi-call inference procedure that structures reasoning into a commitment phase followed by a solve phase, with an optional targeted repair. The method is instantiated by three prompts and an external checker.
+
+Commitment pass (C-pass). Given a problem q, the model is instructed not to solve but to return only a JSON object with four keys: variables, constraints, plan, and invariants. The commitment JSON must satisfy type and count constraints enforced by the checker: variables is a dictionary; constraints is a list; plan is a list of length between 2 and 4; and invariants is a list of length between 1 and 3. The intention is that variables represent quantities in the problem (optionally with units), constraints capture salient requirements from the text, plan outlines a minimal solution strategy, and invariants specify statements that should hold for a correct solution, potentially referencing the eventual FINAL.
+
+Solve pass (S-pass). Conditioned on the original problem q and the serialized commitment JSON, the model is prompted to solve concisely and to output: brief reasoning, a line “FINAL: <number>”, and an evidence table indicating how each invariant is satisfied. In the current pipeline, this pass is the only place where the numeric answer should be produced.
+
+External checker. After the C-pass, the checker validates that a JSON object can be extracted and parsed and that all required fields exist with correct types and sizes. After the S-pass, the checker extracts the final numeric answer using a regex for “FINAL: number” (allowing commas), and then assesses invariant satisfaction. In the recorded implementation, invariant satisfaction is checked heuristically rather than by executing expressions. Specifically, the response must include the literal token “Evidence:”, and the evidence text must reference at least one invariant by matching the first 20 characters of an invariant string in a case-insensitive manner.
+
+Targeted repair. If the invariant check fails and repair is enabled, the pipeline issues one repair prompt that includes (i) the checker’s error message, (ii) the original question, (iii) the prior commitments, and (iv) the previously extracted numeric answer. The model is required to explicitly change either the commitments (invariants or constraints) or the final answer, and then output a corrected solution with “FINAL: <number>” plus an explanation of what changed. The pipeline extracts the repaired final answer for correctness scoring. However, the current aggregation does not recompute or log a post-repair invariant satisfaction metric; therefore, the logged invariant satisfaction rate reflects only the pre-repair solve-pass check.
+
+Baseline: bounded standard CoT. For comparison, we use a bounded standard CoT baseline implemented as a single-pass prompt requesting step-by-step reasoning and requiring “FINAL: <number>” at the end. There is no commitment JSON, no external contract checking, and no repair.
+
+Aggregate metrics. For each method, we compute final-answer accuracy as correct_count / total_samples. We measure average tokens per sample from API token usage metadata and aggregate estimated cost in USD from a simple provider-specific estimator. The primary metric in the logged summaries is reliability_per_token defined as (accuracy * 1000) / avg_tokens_per_sample, so higher values indicate more correct answers per generated token. For C3oT, we additionally log commitment_consistency (fraction of examples with valid commitment JSON), invariant_satisfaction (fraction passing the heuristic invariant or evidence check on the solve pass), and repair_rate (fraction of examples that triggered a repair call).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Experimental Setup}
+
+Dataset. We evaluate on GSM8K (main configuration) using the test split. To keep the experiment scriptable and cost bounded, we use a deterministic subset of 200 examples selected by shuffling with seed 42 and taking the first 200 examples that have parseable numeric gold answers. Gold numeric answers are extracted from GSM8K’s standard “#### NUMBER” suffix.
+
+Model and inference mode. The experiment is inference-only with no training or fine-tuning. The Hydra configuration specifies an LLM provider and model; in the recorded runs the wrapper is configured for an OpenAI chat-completions interface with model name gpt-4o-mini. All runs use temperature 0.0 for determinism and a maximum response length of 2048 tokens per call. Token usage and estimated cost are recorded per call and aggregated per example.
+
+Methods compared and run configurations. We compare two runs on the same GSM8K-200 subset:
+1) comparative-1-baseline-cot-gsm8k (baseline): a single-pass bounded CoT prompt with no checker and no repair.
+2) proposed-c3ot-gsm8k (proposed): C3oT with a commitment pass, a solve pass, and an optional repair pass with a maximum of one repair attempt; the run configuration allows up to three calls per sample.
+
+Batching and runtime controls. Inference is executed with batch_size set to 4 (parallel workers). The code supports a sanity_check mode that would reduce the dataset to 10 samples, but the reported results are from the full 200-sample runs.
+
+Evaluation metrics and scoring. The evaluation code computes: final_answer_accuracy, tokens_used, avg_tokens_per_sample, cost_usd, and reliability_per_token for both runs. For C3oT it also computes commitment_consistency, invariant_satisfaction, and repair_rate. Correctness for both methods is determined by comparing the extracted final_answer to the ground_truth with an absolute tolerance of 1e-6.
+
+Implementation details relevant for reproducibility. Commitment JSON is extracted from the model output by searching for a JSON-like substring using a regex that matches the first occurrence of a brace-delimited block, and then applying json.loads. The schema validator enforces the presence of the keys variables, constraints, plan, and invariants; checks that their types match the expected (dict or list); and enforces that the plan length is between 2 and 4 and invariants length is between 1 and 3. Final answers are extracted by regex matching “FINAL: number” and allowing comma separators. Invariant satisfaction is computed by a simplified heuristic: the solve output must include an “Evidence:” section, and the evidence text must reference at least one invariant by matching a prefix of the invariant string. If this check fails and repair is enabled, one repair prompt is issued.
+
+Figures produced. The experiment pipeline produced per-run metric plots (one for the baseline run and one for the proposed run), a set of cross-run comparison plots, and two descriptive diagrams illustrating the C3oT methodology and overall system architecture. All figures are included and referenced in the Results section.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+
+All results in this section are taken from the saved run summaries for two runs on the GSM8K-200 subset: comparative-1-baseline-cot-gsm8k (baseline) and proposed-c3ot-gsm8k (C3oT). We report only logged aggregate metrics and do not infer unlogged statistics such as confidence intervals.
+
+Experiment 1: Baseline bounded CoT vs C3oT on GSM8K-200.
+Final-answer accuracy (higher is better). The baseline achieves 0.935 accuracy, corresponding to 187 correct answers out of 200. C3oT achieves 0.875 accuracy, corresponding to 175 correct answers out of 200. C3oT therefore underperforms the baseline by 0.060 absolute accuracy on this subset.
+
+Token usage and estimated cost (lower is better). The baseline uses 86,269 total tokens, averaging 431.345 tokens per sample, with an estimated cost of 0.032350875 USD. C3oT uses 261,446 total tokens, averaging 1307.23 tokens per sample, with an estimated cost of 0.09804225 USD. This corresponds to approximately 3.03 times higher token usage and cost for C3oT, consistent with its multi-pass design.
+
+Primary metric: reliability per token (higher is better). Using the logged definition reliability_per_token = (accuracy * 1000) / avg_tokens_per_sample, the baseline achieves 2.1676, while C3oT achieves 0.6694. The gap (proposed minus baseline) is -1.4983, indicating that C3oT is substantially worse on the primary efficiency-oriented metric.
+
+C3oT contract metrics (higher is better). C3oT’s commitment_consistency is 0.98, meaning the commitment JSON parsed and passed schema validation for 98% of examples. The invariant_satisfaction rate is 0.565, meaning that 56.5% of examples passed the heuristic invariant or evidence validation on the solve pass. The repair_rate is 0.415, indicating that 41.5% of examples triggered the repair prompt due to initial invariant validation failure.
+
+Figures. The following figures were produced by the evaluation pipeline and are included here exactly once each.
+
+![Per-run metrics over time for the baseline bounded CoT run on GSM8K; higher values indicate better performance for final-answer accuracy and reliability per token, while lower values indicate better performance for token and cost metrics.](images/comparative-1-baseline-cot-gsm8k_metrics.pdf){#fig:baseline-metrics}
+
+![Per-run metrics over time for the proposed C3oT run on GSM8K; higher values indicate better performance for final-answer accuracy and reliability per token, while lower values indicate better performance for token and cost metrics.](images/proposed-c3ot-gsm8k_metrics.pdf){#fig:c3ot-metrics}
+
+![Comparison of average tokens per sample across runs; lower values indicate better efficiency.](images/comparison_avg_tokens_per_sample.pdf){#fig:comparison-tokens}
+
+![Comparison of estimated USD cost across runs; lower values indicate better efficiency.](images/comparison_cost_usd.pdf){#fig:comparison-cost}
+
+![Comparison of final-answer accuracy across runs; higher values indicate better performance.](images/comparison_final_answer_accuracy.pdf){#fig:comparison-accuracy}
+
+![Heatmap comparison of normalized metrics across runs; higher normalized values indicate better performance for the underlying metric as logged.](images/comparison_heatmap.pdf){#fig:comparison-heatmap}
+
+![Comparison of reliability per token across runs; higher values indicate better performance.](images/comparison_reliability_per_token.pdf){#fig:comparison-rpt}
+
+![C3oT methodology diagram; this figure is descriptive and does not encode a performance metric.](images/c3ot_methodology.pdf){#fig:c3ot-methodology}
+
+![System architecture diagram for the experimental pipeline; this figure is descriptive and does not encode a performance metric.](images/system_architecture.pdf){#fig:system-architecture}
+
+Interpretation and limitations. The comparison plots show that C3oT consumes substantially more tokens than the baseline (@fig:comparison-tokens) and achieves lower final-answer accuracy (@fig:comparison-accuracy), which together yield a large drop in reliability per token (@fig:comparison-rpt). At the same time, the C3oT run’s high commitment consistency indicates that the structured commitment format is robustly elicitable, while the invariant satisfaction rate and repair rate indicate that the checker surfaces many failures that would not be observable in a standard CoT baseline. A key limitation is that invariant checking is heuristic rather than true expression evaluation, which may lead to both false failures and false passes relative to the intended mechanically checkable invariants. Another limitation is that the aggregate metrics do not include a post-repair invariant satisfaction rate, so we cannot quantify how often the repair step resolves contract failures beyond noting how frequently it is invoked.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+
+This paper examined whether prompt-only structured commitments can improve reliability for grade-school math word problems when evaluation explicitly accounts for token cost. We introduced Commitment-Checked Chain-of-Thought (C3oT), a two-pass commit-then-solve procedure in which the model emits a structured commitment JSON (variables, constraints, plan, invariants) and then produces a concise solution with a numeric FINAL and an evidence section, with an external checker and at most one targeted repair.
+
+On a deterministic 200-problem subset of the GSM8K test split, the recorded results do not support the hypothesis that C3oT improves reliability per token relative to a bounded standard CoT baseline. The baseline attained higher accuracy (0.935 versus 0.875) while using substantially fewer tokens per sample (431.345 versus 1307.23), resulting in a much higher reliability_per_token (2.1676 versus 0.6694).
+
+Despite underperforming on end-task accuracy and efficiency in this implementation, C3oT demonstrated two practically relevant properties. First, it produced structurally valid commitments at high rates (commitment_consistency 0.98), suggesting that the required structured artifact is feasible to elicit without fine-tuning. Second, it provided measurable auditing signals, with only 0.565 invariant_satisfaction under the current heuristic checker and a repair_rate of 0.415, indicating that many responses violate the declared evidence or contract requirements.
+
+These results suggest that the immediate value of C3oT, as implemented and evaluated here, is as an auditing scaffold that surfaces faithfulness-related failures rather than as an accuracy- or efficiency-improving technique. Future work should more closely align implementation with the motivating hypothesis by executing invariants directly in a restricted evaluator, logging explicit post-repair contract satisfaction, and enforcing strict matched token budgets across methods to isolate when externally checked commitments can translate into improved correctness and efficiency.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{6pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\authorcontributions{For research articles with several authors, a short paragraph specifying their individual contributions must be provided. The following statements should be used ``Conceptualization, X.X. and Y.Y.; methodology, X.X.; software, X.X.; validation, X.X., Y.Y. and Z.Z.; formal analysis, X.X.; investigation, X.X.; resources, X.X.; data curation, X.X.; writing---original draft preparation, X.X.; writing---review and editing, X.X.; visualization, X.X.; supervision, X.X.; project administration, X.X.; funding acquisition, Y.Y. All authors have read and agreed to the published version of the manuscript.'', please turn to the  \href{http://img.mdpi.org/data/contributor-role-instruction.pdf}{CRediT taxonomy} for the term explanation. Authorship must be limited to those who have contributed substantially to the work~reported.}
+
+\funding{This research received no external funding.}
+
+\dataavailability{All resources used in this study are openly available at }
+
+\acknowledgments{In this study, we automatically carried out a series of research processes—from hypothesis formulation to paper writing—using generative AI.}
+
+\conflictsofinterest{The authors declare no conflicts of interest.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\isPreprints{}{% This command is only used for ``preprints''.
+\begin{adjustwidth}{-\extralength}{0cm}
+%} % If the paper is ``preprints'', please uncomment this parenthesis.
+%\printendnotes[custom] % Un-comment to print a list of endnotes
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\PublishersNote{}
+%\isPreprints{}{% This command is only used for ``preprints''.
+\end{adjustwidth}
+%} % If the paper is ``preprints'', please uncomment this parenthesis.
+\end{document}

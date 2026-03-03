@@ -6,6 +6,7 @@ Fetches results from WandB and generates comparison metrics and visualizations.
 import argparse
 import json
 import os
+import sys
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -17,6 +18,25 @@ import pandas as pd
 
 def parse_args():
     """Parse command line arguments."""
+    # [VALIDATOR FIX - Attempt 1]
+    # [PROBLEM]: evaluate.py error: the following arguments are required: --results_dir, --run_ids
+    # [CAUSE]: The workflow calls the script with key=value format (results_dir="..." run_ids="...") but argparse expects --results_dir --run_ids format
+    # [FIX]: Preprocess sys.argv to convert key=value format to --key value format before argparse processes it
+    #
+    # [OLD CODE]:
+    # (no preprocessing)
+    #
+    # [NEW CODE]:
+    # Preprocess arguments to support both formats
+    processed_args = []
+    for arg in sys.argv[1:]:
+        if "=" in arg and not arg.startswith("-"):
+            # Convert key=value to --key value
+            key, value = arg.split("=", 1)
+            processed_args.extend([f"--{key}", value])
+        else:
+            processed_args.append(arg)
+
     parser = argparse.ArgumentParser(description="Evaluate and compare experiment runs")
     parser.add_argument(
         "--results_dir", type=str, required=True, help="Directory containing results"
@@ -39,7 +59,7 @@ def parse_args():
         default=None,
         help="WandB project (defaults to WANDB_PROJECT env var)",
     )
-    return parser.parse_args()
+    return parser.parse_args(processed_args)
 
 
 def fetch_run_data(entity: str, project: str, run_id: str) -> Optional[Dict]:

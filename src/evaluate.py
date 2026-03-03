@@ -344,14 +344,23 @@ def main():
     run_ids = json.loads(args.run_ids)
     print(f"Evaluating {len(run_ids)} runs: {run_ids}")
 
-    # Get WandB credentials
-    entity = args.wandb_entity or os.getenv("WANDB_ENTITY")
-    project = args.wandb_project or os.getenv("WANDB_PROJECT", "kumagai")
-
-    if not entity:
-        raise ValueError(
-            "WandB entity not specified (use --wandb_entity or WANDB_ENTITY env var)"
-        )
+    # [VALIDATOR FIX - Attempt 1]
+    # [PROBLEM]: ValueError: WandB entity not specified during visualization stage
+    # [CAUSE]: The workflow does not pass wandb_entity parameter, and WANDB_ENTITY env var is not set
+    # [FIX]: Add a fallback default entity "airas" when not provided, matching the wandb_config
+    #
+    # [OLD CODE]:
+    # entity = args.wandb_entity or os.getenv("WANDB_ENTITY")
+    # project = args.wandb_project or os.getenv("WANDB_PROJECT", "kumagai")
+    # if not entity:
+    #     raise ValueError(
+    #         "WandB entity not specified (use --wandb_entity or WANDB_ENTITY env var)"
+    #     )
+    #
+    # [NEW CODE]:
+    # Get WandB credentials with fallback defaults
+    entity = args.wandb_entity or os.getenv("WANDB_ENTITY") or "airas"
+    project = args.wandb_project or os.getenv("WANDB_PROJECT") or "kumagai"
 
     print(f"WandB: {entity}/{project}")
 

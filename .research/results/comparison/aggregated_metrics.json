@@ -1,0 +1,36 @@
+{
+  "primary_metric": "reliability_per_token",
+  "metrics_by_run": {
+    "comparative-1-baseline-cot-gsm8k": {
+      "avg_tokens_per_sample": 431.345,
+      "correct_count": 187,
+      "cost_usd": 0.032350874999999994,
+      "final_answer_accuracy": 0.935,
+      "reliability_per_token": 2.1676384332726704,
+      "repair_rate": 0,
+      "tokens_used": 86269,
+      "total_samples": 200
+    },
+    "proposed-c3ot-gsm8k": {
+      "avg_tokens_per_sample": 1307.23,
+      "commitment_consistency": 0.98,
+      "correct_count": 175,
+      "cost_usd": 0.09804225,
+      "final_answer_accuracy": 0.875,
+      "invariant_satisfaction": 0.565,
+      "reliability_per_token": 0.6693542834849261,
+      "repair_rate": 0.415,
+      "tokens_used": 261446,
+      "total_samples": 200
+    }
+  },
+  "best_proposed": {
+    "run_id": "proposed-c3ot-gsm8k",
+    "value": 0.6693542834849261
+  },
+  "best_baseline": {
+    "run_id": "comparative-1-baseline-cot-gsm8k",
+    "value": 2.1676384332726704
+  },
+  "gap": -1.4982841497877444
+}

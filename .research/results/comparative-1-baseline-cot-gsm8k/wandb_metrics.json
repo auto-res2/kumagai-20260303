@@ -1,0 +1,10 @@
+{
+  "avg_tokens_per_sample": 431.345,
+  "correct_count": 187,
+  "cost_usd": 0.032350874999999994,
+  "final_answer_accuracy": 0.935,
+  "reliability_per_token": 2.1676384332726704,
+  "repair_rate": 0,
+  "tokens_used": 86269,
+  "total_samples": 200
+}
